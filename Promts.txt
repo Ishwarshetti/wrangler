@@ -1,0 +1,50 @@
+# AI Tooling Prompts for ByteSize and TimeDuration Implementation
+
+# 1. Generating ByteSize Class
+Generate a Java class that represents a ByteSize token. The class should:
+- Parse byte size tokens like "10KB", "1.5MB", etc.
+- Provide a method `getBytes()` to return the value in bytes.
+- Implement the `Token` interface with methods `value()`, `type()`, and `toJson()`.
+
+# 2. Modifying Directives.g4 for BYTE_SIZE and TIME_DURATION
+Modify the `Directives.g4` grammar file to include lexer rules for BYTE_SIZE and TIME_DURATION.
+- Add lexer rules for BYTE_UNIT and TIME_UNIT.
+- Modify parser rules to accept BYTE_SIZE and TIME_DURATION tokens in directive arguments.
+
+# 3. Creating TimeDuration Class
+Generate a Java class that represents a TimeDuration token. The class should:
+- Parse time duration tokens like "10s", "1.5m", etc.
+- Provide a method `getMilliseconds()` to return the value in milliseconds.
+- Implement the `Token` interface with methods `value()`, `type()`, and `toJson()`.
+
+# 4. Update Core Parser for BYTE_SIZE and TIME_DURATION
+Update the core parser to visit the new rules for BYTE_SIZE and TIME_DURATION.
+- Add visit methods like `visitByteSizeArg()` and `visitTimeDurationArg()` to handle these new argument types.
+
+# 5. Writing Unit Tests for ByteSize and TimeDuration
+Generate unit tests for the ByteSize and TimeDuration classes:
+- Test parsing of different byte size units like "10KB", "1.5MB", "1GB".
+- Test parsing of time durations like "10s", "100ms", "1.5m".
+- Ensure the `getBytes()` and `getMilliseconds()` methods return the correct canonical values.
+
+# 6. Creating the AggregateStats Directive
+Generate a new directive that aggregates byte sizes and time durations. The directive should:
+- Accept source columns for byte sizes and time durations.
+- Accept target columns for the aggregated total size and total/average time.
+- Perform aggregation and conversion to canonical units (e.g., bytes to MB, nanoseconds to seconds).
+
+# 7. Writing Parser Tests
+Generate parser tests to ensure that the new BYTE_SIZE and TIME_DURATION syntax is correctly parsed:
+- Test valid syntax like "aggregate-stats :size_column :time_column total_size total_time".
+- Test invalid syntax to ensure the parser throws appropriate errors.
+
+# 8. Recipe Test Execution for Aggregation
+Generate a recipe test to ensure aggregation works as expected:
+- Test input data representing log or transaction data.
+- Use the TestingRig to execute the recipe and validate output (e.g., total_size_mb and total_time_sec).
+
+# 9. Generating the Test Case Specification for Aggregation
+Generate the test case specification for the AggregateStats directive:
+- Define the expected output after aggregation.
+- Ensure the results are validated with assertions on the calculated totals.
+
