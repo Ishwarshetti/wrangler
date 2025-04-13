@@ -217,89 +217,55 @@ Cask is a trademark of Cask Data, Inc. All rights reserved.
 Apache, Apache HBase, and HBase are trademarks of The Apache Software Foundation. Used with
 permission. No endorsement by The Apache Software Foundation is implied by the use of these marks.
 
-👨‍💻 Author
-Ishwar
-Software Engineer Intern - Assignment Submission for Zeotap
-Date: April 13, 2025
-
 📌 Overview
-This enhancement adds support for parsing and aggregating byte size and time duration values within CDAP Wrangler. It introduces two new token types: BYTE_SIZE and TIME_DURATION, along with a new directive aggregate-stats that enables data aggregation on these values.
+As part of the Software Engineer Intern Assignment, this update introduces support for parsing and aggregating Byte Sizes and Time Durations in Wrangler directives.
 
-✨ Features Implemented
-✅ Grammar Updates
-Modified Directives.g4 to include:
+✅ Key Features Implemented
+Grammar Update (Directives.g4)
 
-BYTE_SIZE and TIME_DURATION token rules.
+Added lexer rules: BYTE_SIZE, TIME_DURATION
 
-Fragments for BYTE_UNIT and TIME_UNIT.
+Added helper fragments: BYTE_UNIT, TIME_UNIT
 
-✅ API Enhancements (wrangler-api)
-ByteSize.java: Parses inputs like 10KB, 1.5MB, and provides getBytes() method.
+Parser & Token API Enhancements
 
-TimeDuration.java: Parses inputs like 500ms, 2s, and provides getNanoseconds() method.
+New token classes: ByteSize.java, TimeDuration.java
 
-Both implement the Token interface.
+Extended TokenType enum to include BYTE_SIZE and TIME_DURATION
 
-✅ Core Enhancements (wrangler-core)
-Added parser visit methods to parse the new tokens into usable Java objects.
+Directive Implementation
 
-Integrated new tokens into token group logic.
+New directive: aggregate-stats
 
-Implemented AggregateStats directive that supports:
+Aggregates byte size and time duration values from columns
 
-Total and average aggregation
+Outputs total (or average) in user-specified units
 
-Byte and time unit conversions
+ANTLR Parser Regeneration
 
-✅ Directive Usage
-wrangler
-Copy
-Edit
-aggregate-stats :size_col :duration_col :total_size_mb :avg_duration_sec
-🧪 Testing
-Unit tests:
+Executed via mvn compile
 
-ByteSizeTest.java, TimeDurationTest.java
+Testing
 
-AggregateStatsTest.java
+Added unit tests for:
 
-Tests validate parsing, canonical unit conversion, and aggregation behavior.
+ByteSize and TimeDuration parsing
 
-Tests written using TestingRig.
+aggregate-stats directive execution
 
-📁 Project Structure Modified
-markdown
-Copy
-Edit
-wrangler-api/
-  └── parser/
-        ├── ByteSize.java
-        └── TimeDuration.java
+Recipe parsing validation
 
-wrangler-core/
-  ├── directives/
-        └── AggregateStats.java
-  ├── grammar/
-        └── Directives.g4
-  └── parser/
-        └── updated visit methods
-  └── tests/
-        ├── ByteSizeTest.java
-        ├── TimeDurationTest.java
-        └── AggregateStatsTest.java
-🚀 Build & Run
-To compile grammar and build the project:
+🧪 Example Recipe
+text
+Copy code
+aggregate-stats :data_size :response_time total_size_mb total_time_sec
+📂 Files Modified or Created
+Directives.g4
 
-bash
-Copy
-Edit
-mvn clean compile
-To run unit tests:
+ByteSize.java, TimeDuration.java
 
-bash
-Copy
-Edit
-mvn test
-🤖 AI Tooling
-All AI-assisted prompts used during development are committed under:
-📄 prompts.txt
+AggregateStats.java
+
+UsageDefinition updates
+
+Unit tests in wrangler-core/src/test/java/...
