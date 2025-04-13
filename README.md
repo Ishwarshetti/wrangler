@@ -216,3 +216,90 @@ Cask is a trademark of Cask Data, Inc. All rights reserved.
 
 Apache, Apache HBase, and HBase are trademarks of The Apache Software Foundation. Used with
 permission. No endorsement by The Apache Software Foundation is implied by the use of these marks.
+
+👨‍💻 Author
+Ishwar
+Software Engineer Intern - Assignment Submission for Zeotap
+Date: April 13, 2025
+
+📌 Overview
+This enhancement adds support for parsing and aggregating byte size and time duration values within CDAP Wrangler. It introduces two new token types: BYTE_SIZE and TIME_DURATION, along with a new directive aggregate-stats that enables data aggregation on these values.
+
+✨ Features Implemented
+✅ Grammar Updates
+Modified Directives.g4 to include:
+
+BYTE_SIZE and TIME_DURATION token rules.
+
+Fragments for BYTE_UNIT and TIME_UNIT.
+
+✅ API Enhancements (wrangler-api)
+ByteSize.java: Parses inputs like 10KB, 1.5MB, and provides getBytes() method.
+
+TimeDuration.java: Parses inputs like 500ms, 2s, and provides getNanoseconds() method.
+
+Both implement the Token interface.
+
+✅ Core Enhancements (wrangler-core)
+Added parser visit methods to parse the new tokens into usable Java objects.
+
+Integrated new tokens into token group logic.
+
+Implemented AggregateStats directive that supports:
+
+Total and average aggregation
+
+Byte and time unit conversions
+
+✅ Directive Usage
+wrangler
+Copy
+Edit
+aggregate-stats :size_col :duration_col :total_size_mb :avg_duration_sec
+🧪 Testing
+Unit tests:
+
+ByteSizeTest.java, TimeDurationTest.java
+
+AggregateStatsTest.java
+
+Tests validate parsing, canonical unit conversion, and aggregation behavior.
+
+Tests written using TestingRig.
+
+📁 Project Structure Modified
+markdown
+Copy
+Edit
+wrangler-api/
+  └── parser/
+        ├── ByteSize.java
+        └── TimeDuration.java
+
+wrangler-core/
+  ├── directives/
+        └── AggregateStats.java
+  ├── grammar/
+        └── Directives.g4
+  └── parser/
+        └── updated visit methods
+  └── tests/
+        ├── ByteSizeTest.java
+        ├── TimeDurationTest.java
+        └── AggregateStatsTest.java
+🚀 Build & Run
+To compile grammar and build the project:
+
+bash
+Copy
+Edit
+mvn clean compile
+To run unit tests:
+
+bash
+Copy
+Edit
+mvn test
+🤖 AI Tooling
+All AI-assisted prompts used during development are committed under:
+📄 prompts.txt
