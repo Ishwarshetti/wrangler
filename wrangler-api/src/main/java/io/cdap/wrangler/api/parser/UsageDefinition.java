@@ -8,8 +8,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations under
  * the License.
  */
@@ -20,6 +20,7 @@ import io.cdap.wrangler.api.Optional;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,13 +44,14 @@ import java.util.List;
  * @see TokenDefinition
  */
 public final class UsageDefinition implements Serializable {
+  public static final String Type = null;
   // transient so it doesn't show up when serialized using gson in service endpoint responses
   private final transient int optionalCnt;
-  private final String directive;
+  private static String directive = "";
   private final List<TokenDefinition> tokens;
 
   private UsageDefinition(String directive, int optionalCnt, List<TokenDefinition> tokens) {
-    this.directive = directive;
+    UsageDefinition.directive = directive;
     this.tokens = tokens;
     this.optionalCnt = optionalCnt;
   }
@@ -149,11 +151,10 @@ public final class UsageDefinition implements Serializable {
    * <p>This builder is provided as user API for constructing the usage specification
    * for a directive.</p>
    *
-   * @param directive name of the directive for which the builder is created for.
    * @return A <code>UsageDefinition.Builder</code> object that can be used to construct
    * <code>UsageDefinition</code> object.
    */
-  public static UsageDefinition.Builder builder(String directive) {
+  public static UsageDefinition.Builder builder() {
     return new UsageDefinition.Builder(directive);
   }
 
@@ -182,8 +183,9 @@ public final class UsageDefinition implements Serializable {
      * @param name of the token in the definition of a directive.
      * @param type of the token to be extracted.
      */
-    public void define(String name, TokenType type) {
-      TokenDefinition spec = new TokenDefinition(name, type, null, currentOrdinal, Optional.FALSE);
+    public void define(String name, String type) {
+TokenType string = null;
+      TokenDefinition spec = new TokenDefinition(name, string, null, currentOrdinal, Optional.FALSE);
       currentOrdinal++;
       tokens.add(spec);
     }
@@ -239,6 +241,11 @@ public final class UsageDefinition implements Serializable {
      */
     public UsageDefinition build() {
       return new UsageDefinition(directive, optionalCnt, tokens);
+    }
+
+    public List<String> split(String input) {
+        // Provide the implementation for the split method
+        return Arrays.asList(input.split(","));
     }
   }
 }

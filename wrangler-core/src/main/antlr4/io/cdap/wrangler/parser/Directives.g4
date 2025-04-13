@@ -140,8 +140,18 @@ numberRange
  ;
 
 value
- : String | Number | Column | Bool
- ;
+ : String | Number | Column | Bool 
+   | byteSizeArg
+   | timeDurationArg
+  ;
+
+    byteSizeArg
+    : BYTE_SIZE
+    ;
+
+    timeDurationArg
+    : TIME_DURATION
+  ;
 
 ecommand
  : '!' Identifier
@@ -311,3 +321,15 @@ fragment Int
 fragment Digit
  : [0-9]
  ;
+
+ // Lexer rules for BYTE_SIZE and TIME_DURATION
+
+BYTE_SIZE   : [0-9]+ (('k'|'K'|'m'|'M'|'g'|'G'|'t'|'T')? [bB]) ;
+TIME_DURATION : [0-9]+ (('m'|'s'|'h'|'d'|'w'|'y') | ('ms'|'s'|'m'|'h'|'d')) ;
+
+fragment BYTE_UNIT
+  : 'b' | 'kb' | 'mb' | 'gb' | 'tb' ;
+
+fragment TIME_UNIT
+  : 'ms' | 's' | 'm' | 'h' | 'd' ;
+

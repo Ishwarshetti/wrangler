@@ -358,6 +358,16 @@
           </items>
         </configuration>
       </plugin>
+      <plugin>
+      <groupId>org.apache.rat</groupId>
+      <artifactId>apache-rat-plugin</artifactId>
+      <version>0.10</version>
+      <configuration>
+        <excludes>
+          <exclude>src/main/antlr4/io/cdap/wrangler/parser/.antlr/**</exclude>
+        </excludes>
+      </configuration>
+    </plugin>
     </plugins>
   </build>
 

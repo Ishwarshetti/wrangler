@@ -76,7 +76,7 @@ public final class TestingRig {
    * @param rows to be executed on directives.
    * @return transformed directives.
    */
-  public static List<Row> execute(String[] recipe, List<Row> rows)
+  public static List<Row> execute(String[] recipe, String[] rows)
     throws RecipeException, DirectiveParseException, DirectiveLoadException {
     return execute(recipe, rows, new TestingPipelineContext());
   }
